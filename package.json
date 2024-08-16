@@ -4,7 +4,7 @@
   "epicshop": {
     "title": "Workshop Title 🎃",
     "subtitle": "Workshop subtitle",
-    "githubRoot": "https://github.com/epicweb-dev/workshop-template/blob/main",
+    "githubRepo": "https://github.com/epicweb-dev/workshop-template",
     "instructor": {
       "name": "Some instructor",
       "avatar": "/images/instructor.png",
