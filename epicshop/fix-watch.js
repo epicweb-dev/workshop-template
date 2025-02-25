@@ -8,26 +8,31 @@ const here = (...p) => path.join(__dirname, ...p)
 
 const workshopRoot = here('..')
 
-const watchPath = path.join(workshopRoot, './exercises/*')
-const watcher = chokidar.watch(watchPath, {
-	ignored: /(^|[\/\\])\../, // ignore dotfiles
+// Watch the exercises directory
+const watcher = chokidar.watch(path.join(workshopRoot, 'exercises'), {
+	ignored: [
+		/(^|[\/\\])\../, // ignore dotfiles
+		(path) => {
+			// Only watch directories up to depth 2
+			const relativePath = path.slice(workshopRoot.length + 1)
+			return relativePath.split('/').length > 4
+		},
+	],
 	persistent: true,
 	ignoreInitial: true,
-	depth: 2,
 })
 
 const debouncedRun = debounce(run, 200)
 
 // Add event listeners.
 watcher
-	.on('addDir', path => {
+	.on('addDir', (path) => {
 		debouncedRun()
 	})
-	.on('unlinkDir', path => {
-		// Only act if path contains two slashes (excluding the leading `./`)
+	.on('unlinkDir', (path) => {
 		debouncedRun()
 	})
-	.on('error', error => console.log(`Watcher error: ${error}`))
+	.on('error', (error) => console.log(`Watcher error: ${error}`))
 
 /**
  * Simple debounce implementation
@@ -62,14 +67,6 @@ async function run() {
 	}
 }
 
-console.log(`watching ${watchPath}`)
-
-// doing this because the watcher doesn't seem to work and I don't have time
-// to figure out why 🙃
-console.log('Polling...')
-setInterval(() => {
-	run()
-}, 1000)
-
+console.log('Watching exercises directory for changes...')
 console.log('running fix to start...')
 run()
