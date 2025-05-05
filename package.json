@@ -9,7 +9,12 @@
       "name": "Some instructor",
       "avatar": "/images/instructor.png",
       "𝕏": "your_x_handle_here"
-    }
+    },
+    "product": {
+      "host": "www.epicweb.dev",
+      "displayName": "EpicWeb.dev",
+      "displayNameShort": "Epic Web"
+    },
   },
   "type": "module",
   "scripts": {
