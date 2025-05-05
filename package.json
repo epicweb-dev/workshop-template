@@ -14,7 +14,7 @@
       "host": "www.epicweb.dev",
       "displayName": "EpicWeb.dev",
       "displayNameShort": "Epic Web"
-    },
+    }
   },
   "type": "module",
   "scripts": {
