@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "neotan.vscode-auto-restart-typescript-eslint-servers",
-  ]
+	"recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
 }
