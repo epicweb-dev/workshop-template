@@ -33,7 +33,7 @@ jobs:
         run: npm run typecheck
 
       - name: ⬣ ESLint
-        run: echo "Linting not working in CI"
+        run: npm run lint
 
   tests:
     name: 🧪 Test
