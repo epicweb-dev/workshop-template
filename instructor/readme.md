@@ -17,6 +17,7 @@ The goal: you (the instructor) can clone `workshop-template/`, open an agent, an
 ## How to use these docs
 
 1. Read `epic-workshop-anatomy.md` to understand the required repo structure.
+2. Read `emoji-guide.md` if you want to match the “Epic Workshop cast” voice.
 2. Use `workshop-design-playbook.md` to scope and outline the workshop.
 3. Use `exercise-authoring.md` + `mdx-style-guide.md` while generating steps and instructions.
 4. Give the agent `agent-brief-template.md` as its “contract”.
@@ -25,6 +26,7 @@ The goal: you (the instructor) can clone `workshop-template/`, open an agent, an
 ## Files in this directory
 
 - `agent-brief-template.md`: copy/paste prompt an instructor gives to an agent to generate a new workshop on a topic.
+- `emoji-guide.md`: canonical character/emoji mapping used in Epic Workshop narration.
 - `epic-workshop-anatomy.md`: structure, naming, app types (simple vs project), and required files.
 - `workshop-design-playbook.md`: how to scope, research, and design a cohesive exercise flow.
 - `exercise-authoring.md`: how to write steps, problems/solutions, tests, and “set to playground” behavior.
