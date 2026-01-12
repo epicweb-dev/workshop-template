@@ -23,7 +23,8 @@ instructor/
 │   ├── 03-setup.md             # Phase 3: Configure workshop
 │   ├── 04-implementation.md    # Phase 4: Create exercise code
 │   ├── 05-content.md           # Phase 5: Write README.mdx files
-│   └── 06-validation.md        # Phase 6: Test and verify
+│   ├── 06-validation.md        # Phase 6: Test and verify
+│   └── 07-verification.md      # Verify diffs and use MCP tools
 ├── 01-workshop-overview.md     # Core concepts and terminology
 ├── 02-workshop-planning.md     # Planning best practices
 ├── 03-directory-structure.md   # File/folder organization
@@ -70,6 +71,21 @@ These files provide detailed information when needed:
 | `07-testing-and-validation.md` | Adding and running tests |
 | `08-best-practices.md` | Learning from successful workshops |
 | `09-emoji-guide.md` | Using emoji characters correctly |
+
+## Efficiency Tips
+
+### Copy, Don't Create
+For linear exercises, **copy the previous step** and modify rather than creating files from scratch. This saves tokens and ensures minimal diffs.
+
+### Use Helper Scripts
+```bash
+node ./epicshop/fix.js   # Auto-fix tsconfig and package.json
+npm run format           # Format all files
+npm run lint -- --fix    # Fix lint issues
+```
+
+### Verify with MCP Tools
+The epicshop MCP server provides `get_diff_between_apps` to verify diffs are focused. Use it after each step.
 
 ## Workshop Philosophy
 
