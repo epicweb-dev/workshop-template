@@ -183,17 +183,52 @@ test('user can complete exercise', async ({ page }) => {
 
 ### Playwright Configuration
 
+The workshop app runs tests with a `PORT` environment variable. Your config must use it:
+
 ```typescript
-// epicshop/playwright.config.ts
-import { defineConfig } from '@playwright/test'
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test'
+
+const PORT = process.env.PORT || '3000'
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/e2e',
+  timeout: 15 * 1000,
+  expect: {
+    timeout: 5 * 1000,
+  },
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5639',
+    baseURL: `http://localhost:${PORT}/`,
+    trace: 'on-first-retry',
+  },
+
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+
+  webServer: {
+    command: process.env.CI ? 'npm run start' : 'npm run dev',
+    port: Number(PORT),
+    reuseExistingServer: !process.env.CI,
+    stdout: 'pipe',
+    stderr: 'pipe',
+    env: { PORT },
   },
 })
 ```
+
+Key points:
+- Read `PORT` from environment with fallback: `process.env.PORT || '3000'`
+- Use `PORT` in `baseURL`: `` `http://localhost:${PORT}/` ``
+- Pass `PORT` to `webServer.port` and `webServer.env`
 
 ## Testing Best Practices
 
