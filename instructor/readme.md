@@ -1,65 +1,82 @@
 # Epic Workshop Instructor Guide 📚
 
-This directory contains comprehensive documentation for creating Epic Workshops using AI agents. Whether you're building a workshop on React, testing, MCP, or any other topic, these guides will help you create professional, engaging educational content.
+This directory contains documentation for creating Epic Workshops using AI agents.
 
 ## Quick Start for Agents
 
-**If you're an AI agent helping to build a workshop, start here:**
+**To create a workshop, start here:**
 
-1. Read `01-workshop-overview.md` to understand Epic Workshop concepts
-2. Follow `02-workshop-planning.md` to scope and plan the workshop
-3. Use `03-directory-structure.md` to set up the correct file structure
-4. Reference `04-writing-exercises.md` for creating exercises
-5. Apply `05-mdx-and-content.md` for proper MDX formatting
-6. Configure using `06-package-configuration.md`
-7. Validate with `07-testing-and-validation.md`
+```
+Read /instructor/workflow/01-discovery.md and begin the discovery phase.
+```
 
-## Documentation Files
+The workflow will guide you through each phase, referencing additional documentation as needed.
 
-| File | Purpose |
-|------|---------|
-| `01-workshop-overview.md` | Core concepts, terminology, and Epic Workshop philosophy |
-| `02-workshop-planning.md` | How to scope, research, and plan workshop content |
-| `03-directory-structure.md` | File and folder organization requirements |
-| `04-writing-exercises.md` | Creating effective problem/solution pairs |
-| `05-mdx-and-content.md` | MDX formatting, components, and content guidelines |
-| `06-package-configuration.md` | package.json configuration options |
-| `07-testing-and-validation.md` | Testing exercises and validating workshops |
-| `08-best-practices.md` | Patterns from successful workshops |
-| `09-emoji-guide.md` | Character emoji guide for instructions |
-| `10-agent-workflow.md` | Step-by-step workflow for AI agents |
+## Directory Structure
+
+```
+instructor/
+├── workflow/                    # Step-by-step agent workflow
+│   ├── readme.md               # Workflow overview
+│   ├── 01-discovery.md         # Phase 1: Understand topic and scope
+│   ├── 02-planning.md          # Phase 2: Design exercise structure
+│   ├── 03-setup.md             # Phase 3: Configure workshop
+│   ├── 04-implementation.md    # Phase 4: Create exercise code
+│   ├── 05-content.md           # Phase 5: Write README.mdx files
+│   └── 06-validation.md        # Phase 6: Test and verify
+├── 01-workshop-overview.md     # Core concepts and terminology
+├── 02-workshop-planning.md     # Planning best practices
+├── 03-directory-structure.md   # File/folder organization
+├── 04-writing-exercises.md     # Problem/solution creation
+├── 05-mdx-and-content.md       # MDX formatting and components
+├── 06-package-configuration.md # package.json options
+├── 07-testing-and-validation.md # Testing exercises
+├── 08-best-practices.md        # Patterns from successful workshops
+└── 09-emoji-guide.md           # Character emoji reference
+```
+
+## How It Works
+
+1. **Start with the workflow** - Begin at `workflow/01-discovery.md`
+2. **Progress through phases** - Each phase references relevant docs
+3. **Load context as needed** - Only read detailed docs when required
+4. **Get checkpoints** - Confirm with instructor at key points
 
 ## Creating a Workshop
 
-To create a new workshop:
+Tell an AI agent:
 
-1. Clone this workshop-template repository
-2. Open an AI agent (Claude, Cursor, etc.)
-3. Provide the agent with this prompt:
+> "I want to create an Epic Workshop about [YOUR TOPIC]. Please read `/instructor/workflow/01-discovery.md` and help me build it."
 
-```
-I want to create an Epic Workshop about [YOUR TOPIC].
+The agent will:
+1. Ask discovery questions about your topic
+2. Design an exercise structure
+3. Create the workshop files
+4. Write all content
+5. Validate everything works
 
-Please read the instructor documentation in the /instructor directory
-and help me build out this workshop. Start by understanding the topic,
-then propose an exercise structure, and finally implement the exercises
-following the Epic Workshop format.
-```
+## Reference Documentation
 
-The agent will use these documentation files to guide the workshop creation process.
+These files provide detailed information when needed:
+
+| File | When to Reference |
+|------|-------------------|
+| `01-workshop-overview.md` | Understanding Epic Workshop concepts |
+| `02-workshop-planning.md` | Designing exercise flow |
+| `03-directory-structure.md` | Setting up files and folders |
+| `04-writing-exercises.md` | Creating problem/solution pairs |
+| `05-mdx-and-content.md` | Formatting MDX content |
+| `06-package-configuration.md` | Configuring package.json |
+| `07-testing-and-validation.md` | Adding and running tests |
+| `08-best-practices.md` | Learning from successful workshops |
+| `09-emoji-guide.md` | Using emoji characters correctly |
 
 ## Workshop Philosophy
 
-Epic Workshops follow these core principles:
+Epic Workshops follow these principles:
 
-1. **Learn by Doing** - Students write real code, not just read about it
+1. **Learn by Doing** - Students write real code
 2. **Incremental Progress** - Build knowledge step by step
 3. **Immediate Feedback** - Problems and solutions side by side
-4. **Real-World Context** - Exercises mirror actual development tasks
-5. **Self-Paced** - Works for both live workshops and async learning
-
-## Support
-
-- [Epic Workshop App Documentation](https://github.com/epicweb-dev/epicshop/tree/main/docs)
-- [EpicWeb.dev](https://www.epicweb.dev)
-- [EpicReact.dev](https://www.epicreact.dev)
+4. **Real-World Context** - Exercises mirror actual tasks
+5. **Self-Paced** - Works for live and async learning

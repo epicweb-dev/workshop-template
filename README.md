@@ -33,18 +33,15 @@
 ## Creating Workshops with AI Agents
 
 This template includes comprehensive documentation for creating workshops using
-AI agents. See the [`instructor/`](./instructor/) directory for guides on:
+AI agents. See the [`instructor/`](./instructor/) directory for:
 
-- Workshop planning and scoping
-- Exercise design patterns
-- MDX content formatting
-- Testing and validation
-- Best practices from successful workshops
+- **`workflow/`** - Step-by-step agent workflow (start here)
+- Reference docs on planning, exercises, MDX, testing, and best practices
 
 To create a new workshop, tell an AI agent:
 
-> "I want to create an Epic Workshop about [YOUR TOPIC]. Please read the
-> instructor documentation and help me build it out."
+> "I want to create an Epic Workshop about [YOUR TOPIC]. Please read
+> `/instructor/workflow/01-discovery.md` and help me build it."
 
 ## Prerequisites
 

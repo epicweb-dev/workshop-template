@@ -146,11 +146,15 @@ Shortcuts for adjacent diffs:
 
 ### EpicVideo
 
-Embed an EpicWeb/EpicReact video:
+Embed an EpicWeb/EpicReact video (added after videos are recorded):
 
 ```mdx
 <EpicVideo url="https://www.epicweb.dev/workshops/full-stack-foundations/styling/intro" />
 ```
+
+<callout-info>
+**Note for new workshops:** Don't include `<EpicVideo>` components when first creating a workshop. Videos are recorded and added later. Just write the content without video embeds initially.
+</callout-info>
 
 ### VideoEmbed
 
@@ -293,12 +297,12 @@ called in the same order every render. Putting them in conditions breaks this.
 
 ## Complete README.mdx Examples
 
-### Workshop Introduction
+These examples show complete content. Note: `<EpicVideo>` is added later after videos are recorded - omit it when first creating a workshop.
+
+### Workshop Introduction (exercises/README.mdx)
 
 ```mdx
 # React Fundamentals ⚛
-
-<EpicVideo url="https://www.epicreact.dev/workshops/react-fundamentals/intro" />
 
 👨‍💼 Hello! I'm Peter the Product Manager and I'm here to help you understand
 what users need so you can build great React applications!
@@ -322,12 +326,10 @@ exercises use TypeScript for a more realistic development experience.
 Let's get started!
 ```
 
-### Problem Instruction
+### Problem Instruction (XX.problem.step-name/README.mdx)
 
 ```mdx
 # Creating a Custom Hook
-
-<EpicVideo url="https://www.epicweb.dev/workshops/advanced-react/custom-hooks" />
 
 👨‍💼 We have logic for managing a counter that's duplicated in several
 components. Let's extract it into a reusable custom hook!
@@ -353,12 +355,10 @@ export function useCounter(initialValue = 0) {
 📜 [React Custom Hooks Documentation](https://react.dev/learn/reusing-logic-with-custom-hooks)
 ```
 
-### Solution Confirmation
+### Solution Confirmation (XX.solution.step-name/README.mdx)
 
 ```mdx
 # Creating a Custom Hook
-
-<EpicVideo url="https://www.epicweb.dev/workshops/advanced-react/custom-hooks/solution" />
 
 👨‍💼 Excellent! Now we have a reusable `useCounter` hook that any component
 can use. Notice how the hook encapsulates all the counter logic, making our
@@ -372,12 +372,10 @@ Key insights:
 Let's see how to test this hook next.
 ```
 
-### Exercise Finished
+### Exercise Summary (FINISHED.mdx)
 
 ```mdx
 # Custom Hooks
-
-<EpicVideo url="https://www.epicweb.dev/workshops/advanced-react/custom-hooks/finished" />
 
 👨‍💼 Great work! You've learned how to extract reusable logic into custom hooks.
 
