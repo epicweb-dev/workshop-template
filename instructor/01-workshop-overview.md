@@ -117,10 +117,16 @@ Every problem must have a corresponding solution. The solution should be the min
 
 ### 3. Clear Instructions
 Use emoji characters to guide learners:
-- 🐨 Kody the Koala - Step-by-step instructions
 - 👨‍💼 Peter the Product Manager - Context and requirements
-- 🦺 Lily the Life Jacket - TypeScript-specific guidance
-- And more (see emoji guide)
+- 🐨 Kody the Koala - Specific instructions
+- 🧝‍♀️ Kellie the Co-worker - Pre-done work context
+- 🦺 Lily the Life Jacket - TypeScript guidance
+- 💰 Marty the Money Bag - Tips and hints
+- 📜 Dominic the Document - Documentation links
+- 📝 Nancy the Notepad - Note-taking prompts
+- 🦉 Olivia the Owl - Best practices
+- 💣 Barry the Bomb - Code to delete
+- 🚨 Alfred the Alert - Test failure help
 
 ### 4. Real-World Relevance
 Exercises should mirror actual development tasks. Use realistic examples, not contrived scenarios.

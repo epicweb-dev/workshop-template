@@ -4,14 +4,32 @@ Epic Workshops use emoji characters to guide learners through exercises. Each em
 
 ## Main Characters
 
+### 👨‍💼 Peter the Product Manager
+
+**Role:** Helps us know what our users want
+
+**Use for:**
+- Setting the scene and context
+- Explaining requirements and user needs
+- Giving business perspective
+- Celebrating completion
+
+**Example:**
+```mdx
+👨‍💼 Our users are complaining that the form doesn't validate their input.
+They're submitting empty forms and getting confused about what went wrong.
+
+We need to add validation to prevent this!
+```
+
 ### 🐨 Kody the Koala
 
-**Role:** Primary instructor giving step-by-step instructions
+**Role:** Tells you when there's something specific you should do
 
 **Use for:**
 - Specific coding tasks
 - Step-by-step directions
-- "Do this" instructions
+- Direct "do this" instructions
 
 **Example:**
 ```mdx
@@ -23,32 +41,30 @@ const [count, setCount] = useState(0)
 ```
 ```
 
-### 👨‍💼 Peter the Product Manager
+### 🧝‍♀️ Kellie the Co-worker
 
-**Role:** Provides context, requirements, and user perspective
+**Role:** Your co-worker who sometimes does work ahead of your exercises
 
 **Use for:**
-- Setting the scene
-- Explaining requirements
-- Giving user/business context
-- Celebrating completion
+- Explaining code that's already written
+- Setting up context for what's been done
+- Describing existing functionality
 
 **Example:**
 ```mdx
-👨‍💼 Our users are complaining that the form doesn't validate their input.
-They're submitting empty forms and getting confused about what went wrong.
-
-We need to add validation to prevent this!
+🧝‍♀️ I've already set up the basic component structure and installed the
+dependencies you'll need. You just need to add the state management logic.
 ```
 
 ### 🦺 Lily the Life Jacket
 
-**Role:** TypeScript-specific guidance and safety
+**Role:** Helps you with any TypeScript-specific parts of the exercises
 
 **Use for:**
 - Type definitions
 - TypeScript-specific instructions
 - Type safety explanations
+- Generic types and advanced TypeScript
 
 **Example:**
 ```mdx
@@ -65,14 +81,15 @@ type ButtonProps = {
 
 ## Helper Characters
 
-### 💰 Money Bag
+### 💰 Marty the Money Bag
 
-**Role:** Provides hints and code snippets
+**Role:** Gives you specific tips (and sometimes code) along the way
 
 **Use for:**
 - Code hints that help but don't give away the answer
 - Syntax reminders
 - "Here's how to start" snippets
+- Useful tips
 
 **Example:**
 ```mdx
@@ -84,14 +101,15 @@ type ButtonProps = {
 ```
 ```
 
-### 📜 Scroll
+### 📜 Dominic the Document
 
-**Role:** Links to documentation
+**Role:** Gives you links to useful documentation
 
 **Use for:**
 - MDN documentation links
 - React documentation links
 - Official API references
+- External learning resources
 
 **Example:**
 ```mdx
@@ -100,44 +118,30 @@ type ButtonProps = {
 📜 [useEffect Documentation](https://react.dev/reference/react/useEffect)
 ```
 
-### 💣 Bomb
+### 📝 Nancy the Notepad
 
-**Role:** Indicates code to remove or things that will break
-
-**Use for:**
-- Marking code that should be deleted
-- Indicating temporary workarounds to remove
-- Warning about destructive actions
-
-**Example:**
-```tsx
-// @ts-expect-error 💣 Remove this comment when you add the type
-function Calculator({ left, right }) {
-```
-
-### 🧝‍♂️ Elf (Optional Extra)
-
-**Role:** Extra credit challenges
+**Role:** Encourages you to take notes on what you're learning
 
 **Use for:**
-- Bonus tasks
-- Advanced explorations
-- "If you want to go further" suggestions
+- Prompting reflection
+- Highlighting key concepts to remember
+- Encouraging active learning
 
 **Example:**
 ```mdx
-🧝‍♂️ Bonus: Try implementing the same feature using `useReducer` instead
-of `useState` and compare the two approaches.
+📝 Take a moment to note down the difference between `useEffect` and
+`useLayoutEffect`. When would you use each one?
 ```
 
-### 🦉 Owl (Wisdom)
+### 🦉 Olivia the Owl
 
-**Role:** Deeper explanations and insights
+**Role:** Gives you useful tidbits and best practice notes
 
 **Use for:**
+- Best practices
 - "Why this works" explanations
-- Deeper technical context
-- Best practices reasoning
+- Deeper technical insights
+- Industry wisdom
 
 **Example:**
 ```mdx
@@ -146,19 +150,35 @@ instead of `setCount(count + 1)`. The function form ensures we always have
 the latest value, even in closures that captured stale state.
 ```
 
-### 💯 Hundred (Best Practice)
+### 💣 Barry the Bomb
 
-**Role:** Highlights best practices
+**Role:** Hangs around anywhere you need to blow stuff up (delete code)
 
 **Use for:**
-- Recommended patterns
-- Production-ready approaches
-- Industry standards
+- Marking code that should be deleted
+- Indicating temporary workarounds to remove
+- Code that needs to be replaced
 
 **Example:**
-```mdx
-💯 In production, always use `useCallback` for event handlers passed to
-memoized children to prevent unnecessary re-renders.
+```tsx
+// @ts-expect-error 💣 Remove this comment when you add the type
+function Calculator({ left, right }) {
+```
+
+### 🚨 Alfred the Alert
+
+**Role:** Shows up in test failure messages with potential explanations
+
+**Use for:**
+- Test failure explanations
+- Debugging hints in tests
+- Common mistake warnings in test output
+
+**Example:**
+```tsx
+// 🚨 If this test is failing, make sure you've exported the function
+// as a named export, not a default export.
+expect(myFunction).toBeDefined()
 ```
 
 ## Usage in Code Comments
@@ -223,6 +243,8 @@ For HTML files:
 
 👨‍💼 [Context and user need]
 
+🧝‍♀️ [What's already been set up, if applicable]
+
 🐨 [Main instructions with file reference]
 
 [Numbered steps if needed]
@@ -230,6 +252,8 @@ For HTML files:
 💰 [Helpful hints]
 
 📜 [Documentation links]
+
+📝 [Reflection prompt, if appropriate]
 ```
 
 ### Solution Pattern
@@ -241,7 +265,7 @@ For HTML files:
 
 👨‍💼 [Brief confirmation of completion]
 
-[Key insight or "why this works"]
+🦉 [Key insight or best practice]
 
 [Transition to next step if applicable]
 ```
@@ -255,27 +279,65 @@ For HTML files:
 
 👨‍💼 [Celebration and summary]
 
-[Key takeaways]
+📝 [Encourage notes on key takeaways]
 
 [Connection to next exercise or overall learning]
 ```
 
 ## Character Personality Guidelines
 
-### 🐨 Kody
-- Direct and helpful
-- Uses action verbs ("Open", "Add", "Create")
-- Breaks tasks into clear steps
-
 ### 👨‍💼 Peter
 - Friendly and encouraging
 - Thinks about users and business needs
 - Celebrates success ("Great job!", "Perfect!")
+- Sets context for why we're doing something
+
+### 🐨 Kody
+- Direct and helpful
+- Uses action verbs ("Open", "Add", "Create")
+- Breaks tasks into clear steps
+- Focused on what to do
+
+### 🧝‍♀️ Kellie
+- Helpful colleague vibe
+- Explains what's already done
+- Sets up context for the exercise
 
 ### 🦺 Lily
 - Technical and precise
 - Focused on type safety
 - Explains TypeScript-specific concepts
+- Helps with generics and advanced types
+
+### 💰 Marty
+- Generous with hints
+- Provides code snippets
+- Helps when you're stuck
+
+### 📜 Dominic
+- Points to authoritative sources
+- Links to official docs
+- Provides learning resources
+
+### 📝 Nancy
+- Encourages active learning
+- Prompts reflection
+- Helps retention
+
+### 🦉 Olivia
+- Wise and insightful
+- Shares best practices
+- Explains the "why"
+
+### 💣 Barry
+- Marks code for deletion
+- Indicates temporary code
+- Shows what to remove
+
+### 🚨 Alfred
+- Helps debug test failures
+- Explains common mistakes
+- Appears in test output
 
 ## Common Mistakes
 
@@ -318,14 +380,15 @@ For HTML files:
 
 ## Emoji Quick Reference
 
-| Emoji | Character | Purpose |
-|-------|-----------|---------|
-| 🐨 | Kody | Step-by-step instructions |
-| 👨‍💼 | Peter | Context and requirements |
-| 🦺 | Lily | TypeScript guidance |
-| 💰 | Money Bag | Hints and code snippets |
-| 📜 | Scroll | Documentation links |
-| 💣 | Bomb | Code to remove |
-| 🧝‍♂️ | Elf | Extra credit |
-| 🦉 | Owl | Deep explanations |
-| 💯 | Hundred | Best practices |
+| Emoji | Character | Name | Purpose |
+|-------|-----------|------|---------|
+| 👨‍💼 | Peter | Product Manager | Context, requirements, user needs |
+| 🐨 | Kody | Koala | Specific instructions, what to do |
+| 🧝‍♀️ | Kellie | Co-worker | Pre-done work, setup context |
+| 🦺 | Lily | Life Jacket | TypeScript guidance |
+| 💰 | Marty | Money Bag | Tips and code hints |
+| 📜 | Dominic | Document | Documentation links |
+| 📝 | Nancy | Notepad | Encourages note-taking |
+| 🦉 | Olivia | Owl | Best practices, insights |
+| 💣 | Barry | Bomb | Code to delete |
+| 🚨 | Alfred | Alert | Test failure explanations |

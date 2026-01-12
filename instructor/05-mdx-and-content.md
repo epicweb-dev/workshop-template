@@ -215,14 +215,15 @@ The workshop has established characters:
 | Emoji | Character | Purpose |
 |-------|-----------|---------|
 | 👨‍💼 | Peter the Product Manager | Requirements, context, user needs |
-| 🐨 | Kody the Koala | Direct instructions, what to do |
+| 🐨 | Kody the Koala | Specific instructions, what to do |
+| 🧝‍♀️ | Kellie the Co-worker | Pre-done work, setup context |
 | 🦺 | Lily the Life Jacket | TypeScript-specific guidance |
-| 💰 | Money Bag | Code hints, solutions |
-| 📜 | Scroll | Documentation links |
-| 💣 | Bomb | Things to remove |
-| 🧝‍♂️ | Elf | Extra credit challenges |
-| 🦉 | Owl | Wisdom, deeper explanations |
-| 💯 | Hundred | Best practices |
+| 💰 | Marty the Money Bag | Tips and code hints |
+| 📜 | Dominic the Document | Documentation links |
+| 📝 | Nancy the Notepad | Encourages note-taking |
+| 🦉 | Olivia the Owl | Best practices, insights |
+| 💣 | Barry the Bomb | Code to delete |
+| 🚨 | Alfred the Alert | Test failure explanations |
 
 ### Formatting Best Practices
 
