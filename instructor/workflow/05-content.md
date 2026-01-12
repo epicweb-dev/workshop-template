@@ -11,12 +11,34 @@
 |-------|-----------|---------|
 | 👨‍💼 | Peter | Context, requirements, celebrating completion |
 | 🐨 | Kody | Specific instructions |
-| 🧝‍♀️ | Kellie | Explaining pre-done work |
+| 🧝‍♀️ | Kellie | Explaining work done or upcoming (with diff links) |
 | 🦺 | Lily | TypeScript guidance |
 | 💰 | Marty | Tips and hints |
 | 📜 | Dominic | Documentation links |
 | 📝 | Nancy | Note-taking prompts |
 | 🦉 | Olivia | Best practices |
+
+### Using Kellie with Diff Links
+
+Kellie (🧝‍♀️) explains work that was done between steps or will be done next:
+
+**Explaining past work** (learner hasn't seen it):
+```mdx
+🧝‍♀️ I've already set up the database connection and created the schema.
+<PrevDiffLink>Check what I did</PrevDiffLink>
+```
+
+**Explaining upcoming work** (repetitive/optional practice):
+```mdx
+🧝‍♀️ In the next step, I'll apply validation to the remaining fields.
+If you'd like more practice, try doing it yourself first!
+<NextDiffLink>See the upcoming changes</NextDiffLink>
+```
+
+Use Kellie when:
+- Setup work was done that learners didn't see
+- Repetitive work is coming that learners can skip or try themselves
+- Boilerplate needs explanation but isn't the learning focus
 
 ## Step 5.1: Workshop Introduction (exercises/README.mdx)
 

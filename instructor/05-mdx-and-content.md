@@ -137,12 +137,22 @@ Link to show a diff between two exercise steps:
 
 ### NextDiffLink and PrevDiffLink
 
-Shortcuts for adjacent diffs:
+Shortcuts for adjacent diffs. Often used with Kellie (🧝‍♀️) to explain work:
 
 ```mdx
-<NextDiffLink>Check the upcoming changes</NextDiffLink>
-<PrevDiffLink>Check the changes that were made</PrevDiffLink>
+🧝‍♀️ I've already set up the form structure for you.
+<PrevDiffLink>Check what I did</PrevDiffLink>
 ```
+
+```mdx
+🧝‍♀️ In the next step, I'll apply the same pattern to the rest of the fields.
+Feel free to try it yourself first for more practice!
+<NextDiffLink>See the upcoming changes</NextDiffLink>
+```
+
+Use these when:
+- Explaining work done between steps (PrevDiffLink)
+- Showing repetitive work learners can skip or try (NextDiffLink)
 
 ### EpicVideo
 

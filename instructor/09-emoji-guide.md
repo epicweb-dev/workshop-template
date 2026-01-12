@@ -116,8 +116,27 @@ expect(
 
 ### 🧝‍♀️ Kellie
 - Helpful colleague vibe
-- Explains what's already done
-- Sets up context for the exercise
+- Explains work that's been done or will be done
+- Uses diff links to show changes
+
+**Kellie explains past work** (with `<PrevDiffLink />`):
+```mdx
+🧝‍♀️ I've already set up the form validation for the email field.
+<PrevDiffLink>You can check what I did here.</PrevDiffLink>
+```
+
+**Kellie explains upcoming work** (with `<NextDiffLink />`):
+```mdx
+🧝‍♀️ In the next step, I'll apply the same pattern to the remaining
+form fields. If you'd like more practice, feel free to do it yourself
+before moving on!
+<NextDiffLink>Check the upcoming changes</NextDiffLink>
+```
+
+Use Kellie when:
+- Work was done between steps that learners didn't see
+- Repetitive work will be done that learners can skip or try themselves
+- Setting up boilerplate that isn't the focus of the exercise
 
 ### 🦺 Lily
 - Technical and precise
