@@ -15,5 +15,6 @@ data.db
 # we're going to keep them around.
 # .env
 
-# Reference workshops cloned for research
-reference-workshops/
+# ignored stuff
+*.ignored.*
+*.ignored/
