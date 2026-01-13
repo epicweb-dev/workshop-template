@@ -4,12 +4,28 @@
 
 **Reference:** For planning best practices, see `../02-workshop-planning.md`
 
+## Prerequisites
+
+Before starting this phase, ensure you have answers to all discovery questions from Phase 1, including:
+- App type (simple files vs project apps)
+- Testing approach (in-browser vs test scripts)
+- Workshop series context (previous/follow-up workshops)
+- Target audience and experience level
+- Workshop duration
+
 ## Step 2.1: Draft Exercise List
 
-Create a high-level exercise outline:
+Create a high-level exercise outline that incorporates discovery answers:
 
 ```markdown
 # Workshop: [Title]
+
+## Overview
+- **Duration:** [From discovery]
+- **App Type:** [Simple files / Project apps]
+- **Testing:** [In-browser / Test scripts / Both]
+- **Previous Workshop:** [Name or "Standalone"]
+- **Follow-up Planned:** [Yes/No]
 
 ## Exercise Plan
 
@@ -56,6 +72,10 @@ Check the exercise plan:
 - [ ] Are there any gaps in coverage?
 - [ ] Can each step be completed in 15-30 minutes?
 - [ ] Is the total length appropriate for target duration?
+- [ ] Does the app type match the complexity needed for each exercise?
+- [ ] Is the testing approach consistent and appropriate?
+- [ ] If continuation: Does it properly build on the previous workshop?
+- [ ] If follow-up planned: Are boundaries clear on what's deferred?
 
 ## Workshop Length Guidelines
 
@@ -72,13 +92,28 @@ Present the plan to the instructor:
 ```
 Here's my proposed workshop structure:
 
+**Configuration:**
+- App Type: [Simple files / Project apps]
+- Testing: [In-browser / Test scripts / Both]
+- Duration: [X hours/days]
+
+**Workshop Series:**
+- Previous: [Workshop name or "Standalone"]
+- Follow-up: [Planned topic or "None"]
+
 [Full exercise plan with steps]
+
+**Scope boundaries:**
+- In scope: [Key topics]
+- Out of scope: [Excluded topics]
+- Deferred to follow-up: [If applicable]
 
 Questions:
 1. Does this cover what you wanted?
 2. Is the order logical?
 3. Should anything be added or removed?
 4. Is the difficulty progression appropriate?
+5. Are the app type and testing approach correct for this content?
 ```
 
 ## Next Step

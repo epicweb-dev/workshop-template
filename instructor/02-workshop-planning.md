@@ -1,5 +1,52 @@
 # Workshop Planning Guide
 
+## Pre-Planning: Essential Questions
+
+Before any planning begins, get clear answers to these questions from the instructor:
+
+### Core Questions Checklist
+
+- [ ] **Topic**: What is the main topic and what specific concepts should be covered?
+- [ ] **Audience**: Who is the primary audience and what is their experience level?
+- [ ] **Duration**: How long should the workshop be (2-4 hours, 4-8 hours, 1-2 days)?
+- [ ] **App Type**: Simple files (HTML/JS) or project apps (Remix, Vite, etc.)?
+- [ ] **Testing**: In-browser verification, automated test scripts, or both?
+- [ ] **Workshop Series**: Is this a continuation? Are follow-ups planned?
+- [ ] **Learning Outcomes**: What should learners be able to DO after completing?
+
+### App Type Decision Guide
+
+| Choose Simple Files When... | Choose Project Apps When... |
+|----------------------------|----------------------------|
+| Teaching fundamentals (HTML, CSS, JS basics) | Teaching framework-specific concepts |
+| Exercises are single-file focused | Exercises need build tools or bundlers |
+| Quick iteration is important | Real-world project structure matters |
+| Minimal setup is preferred | Multiple files/folders are needed |
+| Browser APIs are the focus | Server-side code is required |
+
+### Testing Approach Decision Guide
+
+| Choose In-Browser When... | Choose Test Scripts When... |
+|--------------------------|---------------------------|
+| Visual output is the goal | Specific behavior must be verified |
+| Learning HTML/CSS | Teaching testing concepts |
+| Simple console output suffices | Complex logic needs validation |
+| Immediate feedback is key | Automated grading is needed |
+
+### Workshop Series Considerations
+
+**If this is a continuation of another workshop:**
+- Review the previous workshop's final state as your starting point
+- Assume knowledge from the previous workshop (don't re-teach)
+- Reference the previous workshop in your introduction
+- Consider using the same app/codebase if applicable
+
+**If follow-up workshops are planned:**
+- Define clear boundaries for what's "out of scope - covered in follow-up"
+- Avoid going too deep on topics that will have dedicated workshops
+- End with a teaser of what's coming next
+- Leave the codebase in a state that can be extended
+
 ## Phase 1: Topic Research
 
 Before creating any exercises, thoroughly understand the topic:
@@ -11,6 +58,8 @@ Before creating any exercises, thoroughly understand the topic:
 - [ ] Understand common pain points and misconceptions
 - [ ] Identify prerequisites learners need
 - [ ] Determine the target audience skill level
+- [ ] Review previous workshop (if continuation)
+- [ ] Understand scope boundaries (if follow-up planned)
 
 ### Questions to Answer
 1. What does a beginner need to know?
@@ -18,6 +67,7 @@ Before creating any exercises, thoroughly understand the topic:
 3. What are the most common mistakes people make?
 4. What's the "aha moment" for this topic?
 5. How does this topic connect to real-world applications?
+6. What can be deferred to a follow-up workshop?
 
 ## Phase 2: Scoping
 
@@ -119,8 +169,21 @@ Exercises are relatively independent. Best for:
 ```markdown
 # Workshop: [Title]
 
+## Overview
+- **Duration:** [2-4 hours / 4-8 hours / 1-2 days]
+- **App Type:** [Simple files / Project apps / Mix]
+- **Testing:** [In-browser / Test scripts / Both]
+
 ## Target Audience
-[Who is this for? What do they already know?]
+- **Primary audience:** [Who is this for?]
+- **Experience level:** [Beginner / Intermediate / Advanced]
+- **What they already know:** [Assumed knowledge]
+
+## Workshop Series Context
+- **Previous workshop:** [Name and link, or "None - standalone"]
+- **Follow-up workshop:** [Planned topic, or "None planned"]
+- **Assumed from previous:** [Concepts carried forward, or N/A]
+- **Deferred to follow-up:** [Topics saved for later, or N/A]
 
 ## Learning Outcomes
 By the end of this workshop, learners will be able to:
@@ -153,6 +216,10 @@ By the end of this workshop, learners will be able to:
 - [Topic not covered]
 - [Topic not covered]
 
+## Deferred to Follow-up Workshop
+- [Topic to cover in next workshop]
+- [Topic to cover in next workshop]
+
 ## Potential Bonus Content
 - [Extra exercise idea]
 - [Extra exercise idea]
@@ -183,8 +250,21 @@ Consider:
 ```markdown
 # Workshop: React Server Components
 
+## Overview
+- **Duration:** 4-8 hours (standard)
+- **App Type:** Project apps (Next.js)
+- **Testing:** Mix of in-browser and test scripts
+
 ## Target Audience
-Experienced React developers who want to understand RSC
+- **Primary audience:** Frontend developers moving to full-stack
+- **Experience level:** Intermediate React developers
+- **What they already know:** React fundamentals, basic Node.js
+
+## Workshop Series Context
+- **Previous workshop:** "React Fundamentals" (assumes completion)
+- **Follow-up workshop:** "Advanced RSC Patterns" (planned)
+- **Assumed from previous:** Components, hooks, state management, JSX
+- **Deferred to follow-up:** Caching strategies, parallel routes, intercepting routes
 
 ## Learning Outcomes
 1. Understand the mental model of server vs client components
@@ -220,6 +300,15 @@ Experienced React developers who want to understand RSC
 - 03.problem.optimistic: Add optimistic updates
 
 [etc...]
+
+## Out of Scope
+- Next.js App Router specifics (covered in separate workshop)
+- Database integration details
+
+## Deferred to Follow-up Workshop
+- Advanced caching strategies
+- Parallel and intercepting routes
+- Production deployment patterns
 ```
 
 ## Planning Anti-Patterns
