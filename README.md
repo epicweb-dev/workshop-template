@@ -30,6 +30,19 @@
 [![Code of Conduct][coc-badge]][coc]
 <!-- prettier-ignore-end -->
 
+## Creating Workshops with AI Agents
+
+This template includes comprehensive documentation for creating workshops using
+AI agents. See the [`instructor/`](./instructor/) directory for:
+
+- **`workflow/`** - Step-by-step agent workflow (start here)
+- Reference docs on planning, exercises, MDX, testing, and best practices
+
+To create a new workshop, tell an AI agent:
+
+> "I want to create an Epic Workshop about [YOUR TOPIC]. Please read
+> `/instructor/workflow/01-discovery.md` and help me build it."
+
 ## Prerequisites
 
 - TODO: add prerequisites

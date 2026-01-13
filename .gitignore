@@ -14,3 +14,7 @@ data.db
 # file as well, but since this is for a workshop
 # we're going to keep them around.
 # .env
+
+# ignored stuff
+*.ignored.*
+*.ignored/
