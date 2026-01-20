@@ -7,7 +7,7 @@ workspace/
 **/playwright-report
 data.db
 /playground
-**/tsconfig.tsbuildinfo
+**/*.tsbuildinfo
 **/dist
 
 # in a real app you'd want to not commit the .env
