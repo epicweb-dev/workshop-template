@@ -80,7 +80,12 @@ details as you can offer.
 Learn all about the workshop app on the
 [Epic Web Getting Started Guide](https://www.epicweb.dev/get-started).
 
-[![Kent with the workshop app in the background](https://github-production-user-asset-6210df.s3.amazonaws.com/1500684/280407082-0e012138-e01d-45d5-abf2-86ffe5d03c69.png)](https://www.epicweb.dev/get-started)
+Make sure to complete
+[the Epic Workshop app Tutorial](https://github.com/epicweb-dev/epicshop-tutorial):
+
+```
+npx --yes epicshop@latest add epicshop-tutorial
+```
 
 <!-- prettier-ignore-start -->
 [npm]: https://www.npmjs.com/
