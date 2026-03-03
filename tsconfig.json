@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/tsconfig.tsbuildinfo"
+  },
   "files": [],
   "exclude": [
     "node_modules"

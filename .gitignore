@@ -24,5 +24,8 @@ data.db
 # ignored stuff
 *.ignored.*
 *.ignored/
+# ignored stuff
+*.local.*
+*.local/
 
 saved-playgrounds
