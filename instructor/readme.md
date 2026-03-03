@@ -79,7 +79,7 @@ For linear exercises, **copy the previous step** and modify rather than creating
 
 ### Use Helper Scripts
 ```bash
-node ./epicshop/fix.js   # Auto-fix tsconfig and package.json
+node ./epicshop/fix.ts   # Auto-fix tsconfig and package.json
 npm run format           # Format all files
 npm run lint -- --fix    # Fix lint issues
 ```

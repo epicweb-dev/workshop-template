@@ -51,7 +51,7 @@ For linear exercises, **copy the previous step and modify** rather than creating
 After creating directories, run:
 
 ```bash
-node ./epicshop/fix.js
+node ./epicshop/fix.ts
 ```
 
 This auto-updates tsconfig and package.json files.

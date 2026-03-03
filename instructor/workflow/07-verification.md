@@ -12,7 +12,7 @@ Always run these after creating/modifying exercises:
 
 ```bash
 # Auto-fix tsconfig.json and package.json name properties
-node ./epicshop/fix.js
+node ./epicshop/fix.ts
 
 # Format all files consistently
 npm run format
@@ -121,12 +121,12 @@ This prevents formatting differences from cluttering diffs.
 
 ### 4. Run the Fix Script
 
-The `epicshop/fix.js` script auto-updates:
+The `epicshop/fix.ts` script auto-updates:
 - `tsconfig.json` references
 - `package.json` name properties
 
 ```bash
-node ./epicshop/fix.js
+node ./epicshop/fix.ts
 ```
 
 Run this after creating new exercise directories to ensure consistent configuration.
@@ -156,7 +156,7 @@ npm test  # if tests exist
 
 **Cause:** Different tsconfig or package.json settings.
 
-**Fix:** Run `node ./epicshop/fix.js` to normalize configs.
+**Fix:** Run `node ./epicshop/fix.ts` to normalize configs.
 
 ### Problem: Too many files changed
 
@@ -175,7 +175,7 @@ npm test  # if tests exist
 For each exercise step:
 
 1. **Create the step** (copy from previous, modify)
-2. **Run fix script** (`node ./epicshop/fix.js`)
+2. **Run fix script** (`node ./epicshop/fix.ts`)
 3. **Run formatter** (`npm run format`)
 4. **Check diff** (`get_diff_between_apps`)
 5. **Fix any issues** found in diff

@@ -58,7 +58,7 @@ Previous solution → Copy → New problem → Modify → New solution
 After creating new directories, run:
 
 ```bash
-node ./epicshop/fix.js
+node ./epicshop/fix.ts
 ```
 
 This automatically updates:
@@ -157,7 +157,7 @@ This is less efficient but necessary when steps don't build on each other.
 
 After implementing each exercise:
 
-- [ ] Ran `node ./epicshop/fix.js`
+- [ ] Ran `node ./epicshop/fix.ts`
 - [ ] Ran `npm run format`
 - [ ] Problem → Solution diff is focused
 - [ ] Step → Step diff is minimal (for linear)

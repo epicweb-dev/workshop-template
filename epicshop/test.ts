@@ -1,6 +1,4 @@
-import path from 'node:path'
 import { performance } from 'perf_hooks'
-import { fileURLToPath } from 'url'
 import {
 	getApps,
 	getAppDisplayName,
@@ -11,8 +9,6 @@ import { matchSorter } from 'match-sorter'
 import pLimit from 'p-limit'
 
 const { prompt } = enquirer
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 type OutputEntry = { chunk: string; streamType: 'stdout' | 'stderr' }
 
@@ -36,6 +32,32 @@ function captureOutput() {
 }
 
 type TestResult = { result: 'Passed' | 'Failed' | 'Error' | 'Incomplete'; duration: number }
+type AppUnderTest = Awaited<ReturnType<typeof getApps>>[number]
+type RunningProcess = {
+	app: AppUnderTest
+	output: ReturnType<typeof captureOutput>
+	startTime: number
+	subprocess?: ReturnType<typeof execa>
+}
+
+function isExerciseStepApp(
+	app: AppUnderTest,
+): app is AppUnderTest & {
+	exerciseNumber: number
+	stepNumber: number
+	type: 'problem' | 'solution'
+} {
+	return app.type === 'problem' || app.type === 'solution'
+}
+
+function getAppPattern(app: AppUnderTest) {
+	if (!isExerciseStepApp(app)) return null
+	return `${app.exerciseNumber}.${app.stepNumber}.${app.type}`
+}
+
+function getAppPort(app: AppUnderTest) {
+	return app.dev.type === 'script' ? String(app.dev.portNumber) : undefined
+}
 
 function printTestSummary(results: Map<string, TestResult>) {
 	const label = '--- Test Summary ---'
@@ -63,6 +85,15 @@ function printTestSummary(results: Map<string, TestResult>) {
 	console.log(`${'-'.repeat(label.length)}\n`)
 }
 
+function parseCliArgs(argv: Array<string>) {
+	const argIndex = argv.indexOf('--')
+	const positionalArgs = argIndex === -1 ? argv.slice(2) : argv.slice(2, argIndex)
+	return {
+		patternArg: positionalArgs[0],
+		additionalArgs: argIndex === -1 ? [] : argv.slice(argIndex + 1),
+	}
+}
+
 async function main() {
 	const allApps = await getApps()
 	const allAppsWithTests = allApps.filter((app) => app.test?.type === 'script')
@@ -71,22 +102,16 @@ async function main() {
 		console.error(
 			'❌ No apps with tests were found. Ensure your apps have a test script defined in the package.json. Exiting.',
 		)
-		process.exit(1)
+		return 1
 	}
 
-	let selectedApps
-	let additionalArgs: Array<string> = []
+	let selectedApps: Array<AppUnderTest> = []
+	const { patternArg, additionalArgs } = parseCliArgs(process.argv)
 
-	// Parse command-line arguments
-	const argIndex = process.argv.indexOf('--')
-	if (argIndex !== -1) {
-		additionalArgs = process.argv.slice(argIndex + 1)
-		process.argv = process.argv.slice(0, argIndex)
-	}
-
-	if (process.argv[2]) {
-		const patterns = process.argv[2].toLowerCase().split(',')
+	if (patternArg) {
+		const patterns = patternArg.toLowerCase().split(',')
 		selectedApps = allAppsWithTests.filter((app) => {
+			if (!isExerciseStepApp(app)) return false
 			const { exerciseNumber, stepNumber, type } = app
 
 			return patterns.some((pattern) => {
@@ -118,26 +143,34 @@ async function main() {
 			type: 'autocomplete',
 			name: 'appDisplayNames',
 			message: 'Select apps to test:',
-			choices: ['All', ...choices],
+			choices: ['All', ...Array.from(choices)],
 			multiple: true,
 			suggest: (input: string, choices: Array<{ name: string }>) => {
 				return matchSorter(choices, input, { keys: ['name'] })
 			},
 		})
 
-		selectedApps = response.appDisplayNames.includes('All')
+		const selectedFromPrompt = response.appDisplayNames.includes('All')
 			? allAppsWithTests
 			: response.appDisplayNames.map((appDisplayName: string) =>
 					displayNameMap.get(appDisplayName),
 				)
+		selectedApps = selectedFromPrompt.filter(
+			(app): app is AppUnderTest => app !== undefined,
+		)
+		if (selectedApps.length !== selectedFromPrompt.length) {
+			console.warn('⚠️ Some selected apps were not resolved and were skipped.')
+		}
 
-		// Update this block to use process.argv
+		const selectedExercisePatterns = selectedApps
+			.map(getAppPattern)
+			.filter((pattern): pattern is string => pattern !== null)
 		const appPattern =
 			selectedApps.length === allAppsWithTests.length
 				? '*'
-				: selectedApps
-						.map((app: any) => `${app.exerciseNumber}.${app.stepNumber}.${app.type}`)
-						.join(',')
+				: selectedExercisePatterns.length > 0
+					? selectedExercisePatterns.join(',')
+					: '*'
 		const additionalArgsString =
 			additionalArgs.length > 0 ? ` -- ${additionalArgs.join(' ')}` : ''
 		console.log(`\nℹ️  To skip the prompt next time, use this command:`)
@@ -146,7 +179,7 @@ async function main() {
 
 	if (selectedApps.length === 0) {
 		console.log('⚠️ No apps selected. Exiting.')
-		return
+		return 0
 	}
 
 	if (selectedApps.length === 1) {
@@ -159,7 +192,7 @@ async function main() {
 				stdio: 'inherit',
 				env: {
 					...process.env,
-					PORT: app.dev.portNumber,
+					PORT: getAppPort(app),
 				},
 			})
 			const duration = (performance.now() - startTime) / 1000
@@ -171,21 +204,23 @@ async function main() {
 			console.error(
 				`❌ Tests failed for ${app.relativePath} (${duration.toFixed(2)}s)`,
 			)
-			process.exit(1)
+			return 1
 		}
 	} else {
 		const limit = pLimit(1)
 		let hasFailures = false
-		const runningProcesses = new Map()
+		const runningProcesses = new Map<string, RunningProcess>()
 		let isShuttingDown = false
 		const results = new Map<string, TestResult>()
 
 		const shutdownHandler = () => {
 			if (isShuttingDown) return
 			isShuttingDown = true
+			hasFailures = true
 			console.log('\nGracefully shutting down. Please wait...')
 			console.log('Outputting results of running tests:')
-			for (const [app, output] of runningProcesses.entries()) {
+			for (const { app, output, startTime, subprocess } of runningProcesses.values()) {
+				subprocess?.kill('SIGTERM')
 				if (output.hasOutput()) {
 					console.log(`\nPartial results for ${app.relativePath}:\n\n`)
 					output.replay()
@@ -193,47 +228,52 @@ async function main() {
 				} else {
 					console.log(`ℹ️  No output captured for ${app.relativePath}`)
 				}
-				// Set result for incomplete tests
 				if (!results.has(app.relativePath)) {
-					results.set(app.relativePath, { result: 'Incomplete', duration: 0 })
+					results.set(app.relativePath, {
+						result: 'Incomplete',
+						duration: (performance.now() - startTime) / 1000,
+					})
 				}
 			}
 			printTestSummary(results)
-			// Allow some time for output to be written before exiting
-			setTimeout(() => process.exit(1), 100)
 		}
 
 		process.on('SIGINT', shutdownHandler)
 		process.on('SIGTERM', shutdownHandler)
 
-		const tasks = selectedApps.map((app: any) =>
+		const tasks = selectedApps.map((app) =>
 			limit(async () => {
 				if (isShuttingDown) return
 				console.log(`🚀 Starting tests for ${app.relativePath}`)
 				const output = captureOutput()
-				runningProcesses.set(app, output)
 				const startTime = performance.now()
 				try {
 					const subprocess = execa(
 						'npm',
 						['run', 'test', '--silent', '--', ...additionalArgs],
 						{
-							cwd: path.join(__dirname, '..', app.relativePath),
+							cwd: app.fullPath,
 							reject: false,
 							env: {
 								...process.env,
-								PORT: app.dev.portNumber,
+								PORT: getAppPort(app),
 							},
 						},
 					)
+					runningProcesses.set(app.relativePath, {
+						app,
+						output,
+						startTime,
+						subprocess,
+					})
 
-					subprocess.stdout!.on('data', (chunk: Buffer) => output.write(chunk, 'stdout'))
-					subprocess.stderr!.on('data', (chunk: Buffer) => output.write(chunk, 'stderr'))
+					subprocess.stdout?.on('data', (chunk: Buffer) => output.write(chunk, 'stdout'))
+					subprocess.stderr?.on('data', (chunk: Buffer) => output.write(chunk, 'stderr'))
 
 					const { exitCode } = await subprocess
 					const duration = (performance.now() - startTime) / 1000
 
-					runningProcesses.delete(app)
+					runningProcesses.delete(app.relativePath)
 
 					if (exitCode !== 0) {
 						hasFailures = true
@@ -243,10 +283,6 @@ async function main() {
 						output.replay()
 						console.log('\n\n')
 						results.set(app.relativePath, { result: 'Failed', duration })
-						// Set result for incomplete tests
-						if (!results.has(app.relativePath)) {
-							results.set(app.relativePath, { result: 'Incomplete', duration: 0 })
-						}
 					} else {
 						console.log(
 							`✅ Finished tests for ${app.relativePath} (${duration.toFixed(2)}s)`,
@@ -255,7 +291,7 @@ async function main() {
 					}
 				} catch (error: any) {
 					const duration = (performance.now() - startTime) / 1000
-					runningProcesses.delete(app)
+					runningProcesses.delete(app.relativePath)
 					hasFailures = true
 					console.error(
 						`\n❌ An error occurred while running tests for ${app.relativePath} (${duration.toFixed(2)}s):\n\n`,
@@ -268,20 +304,26 @@ async function main() {
 			}),
 		)
 
-		await Promise.all(tasks)
+		try {
+			await Promise.all(tasks)
+		} finally {
+			process.off('SIGINT', shutdownHandler)
+			process.off('SIGTERM', shutdownHandler)
+		}
 
 		// Print summary output
 		printTestSummary(results)
 
-		if (hasFailures) {
-			process.exit(1)
-		}
+		if (hasFailures || isShuttingDown) return 1
 	}
+
+	return 0
 }
 
-main().catch((error) => {
+const exitCode = await main().catch((error) => {
 	if (error) {
 		console.error('❌ An error occurred:', error)
 	}
-	setTimeout(() => process.exit(1), 100)
+	return 1
 })
+process.exitCode = exitCode

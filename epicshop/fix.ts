@@ -3,22 +3,28 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import {
+	exists,
+	getScriptDir,
+	readDirSorted,
+	toPosixPath,
+	uniqueSorted,
+} from './script-utils.ts'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = getScriptDir(import.meta.url)
 const here = (...p: Array<string>) => path.join(__dirname, ...p)
 
 const workshopRoot = here('..')
-const examples = (await readDir(here('../examples'))).map(dir =>
-	here(`../examples/${dir}`),
+const extraApps = (await readDirSorted(here('../extra'))).map(dir =>
+	here(`../extra/${dir}`),
 )
-const exercises = (await readDir(here('../exercises')))
+const exercises = (await readDirSorted(here('../exercises')))
 	.map(name => here(`../exercises/${name}`))
 	.filter(filepath => fs.statSync(filepath).isDirectory())
 const exerciseApps = (
 	await Promise.all(
 		exercises.flatMap(async exercise => {
-			return (await readDir(exercise))
+			return (await readDirSorted(exercise))
 				.filter(dir => {
 					return /(problem|solution)/.test(dir)
 				})
@@ -26,12 +32,9 @@ const exerciseApps = (
 		}),
 	)
 ).flat()
-const exampleApps = (await readDir(here('../examples'))).map(dir =>
-	here(`../examples/${dir}`),
-)
-const apps = [...exampleApps, ...exerciseApps]
+const apps = uniqueSorted([...extraApps, ...exerciseApps])
 
-const appsWithPkgJson = [...examples, ...apps].filter(app => {
+const appsWithPkgJson = apps.filter(app => {
 	const pkgjsonPath = path.join(app, 'package.json')
 	return exists(pkgjsonPath)
 })
@@ -42,7 +45,7 @@ const appsWithPkgJson = [...examples, ...apps].filter(app => {
 // name: "exercises__sep__01-goo.problem__sep__01-great"
 
 function relativeToWorkshopRoot(dir: string) {
-	return dir.replace(`${workshopRoot}${path.sep}`, '')
+	return path.relative(workshopRoot, dir)
 }
 
 await updatePkgNames()
@@ -51,7 +54,9 @@ await updateTsconfig()
 async function updatePkgNames() {
 	for (const file of appsWithPkgJson) {
 		const pkgjsonPath = path.join(file, 'package.json')
-		const pkg = JSON.parse(await fs.promises.readFile(pkgjsonPath, 'utf8'))
+		const pkg = JSON.parse(
+			await fs.promises.readFile(pkgjsonPath, 'utf8'),
+		) as Record<string, unknown>
 		pkg.name = relativeToWorkshopRoot(file).replace(/\\|\//g, '_')
 		const written = await writeIfNeeded(
 			pkgjsonPath,
@@ -67,9 +72,11 @@ async function updateTsconfig() {
 	const tsconfig = {
 		files: [],
 		exclude: ['node_modules'],
-		references: appsWithPkgJson.map(a => ({
-			path: relativeToWorkshopRoot(a).replace(/\\/g, '/'),
-		})),
+		references: appsWithPkgJson
+			.map(a => ({
+				path: toPosixPath(relativeToWorkshopRoot(a)),
+			}))
+			.sort((a, b) => a.path.localeCompare(b.path)),
 	}
 	const written = await writeIfNeeded(
 		path.join(workshopRoot, 'tsconfig.json'),
@@ -93,21 +100,4 @@ async function writeIfNeeded(filepath: string, content: string, _opts?: { parser
 		await fs.promises.writeFile(filepath, content)
 	}
 	return oldContent !== content
-}
-
-function exists(p: string) {
-	if (!p) return false
-	try {
-		fs.statSync(p)
-		return true
-	} catch {
-		return false
-	}
-}
-
-async function readDir(dir: string) {
-	if (exists(dir)) {
-		return fs.promises.readdir(dir)
-	}
-	return []
 }

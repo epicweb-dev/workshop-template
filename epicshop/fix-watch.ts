@@ -1,35 +1,54 @@
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import chokidar from 'chokidar'
 import { $ } from 'execa'
+import { getScriptDir } from './script-utils.ts'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = getScriptDir(import.meta.url)
 const here = (...p: Array<string>) => path.join(__dirname, ...p)
 
 const workshopRoot = here('..')
 
-// Watch the exercises directory
-const watcher = chokidar.watch(path.join(workshopRoot, 'exercises'), {
-	ignored: [
-		/(^|[/\\])\./, // ignore dotfiles
-		(path: string) => {
-			// Only watch directories up to depth 2
-			const relativePath = path.slice(workshopRoot.length + 1)
-			return relativePath.split('/').length > 4
-		},
-	],
-	persistent: true,
-	ignoreInitial: true,
-})
+// Watch the app roots.
+const watcher = chokidar.watch(
+	[path.join(workshopRoot, 'exercises'), path.join(workshopRoot, 'extra')],
+	{
+		ignored: [/(^|[/\\])\./], // ignore dotfiles
+		depth: 2,
+		persistent: true,
+		ignoreInitial: true,
+	},
+)
+const debouncedRun = debounce(queueFixRun, 200)
 
-const debouncedRun = debounce(run, 200)
+let running = false
+let pending = false
+
+async function queueFixRun() {
+	if (running) {
+		pending = true
+		return
+	}
+
+	running = true
+	try {
+		do {
+			pending = false
+			await $({
+				stdio: 'inherit',
+				cwd: workshopRoot,
+			})`node ./epicshop/fix.ts`
+		} while (pending)
+	} finally {
+		running = false
+	}
+}
 
 // Add event listeners.
 watcher
-	.on('addDir', (_path: string) => {
+	.on('addDir', () => {
 		debouncedRun()
 	})
-	.on('unlinkDir', (_path: string) => {
+	.on('unlinkDir', () => {
 		debouncedRun()
 	})
 	.on('error', (error: unknown) => console.log(`Watcher error: ${error}`))
@@ -47,24 +66,6 @@ function debounce(fn: (...args: Array<unknown>) => unknown, delay: number) {
 	}
 }
 
-let running = false
-
-async function run() {
-	if (running) {
-		console.log('still running...')
-		return
-	}
-	running = true
-	try {
-		await $({
-			stdio: 'inherit',
-			cwd: workshopRoot,
-		})`node ./epicshop/fix.ts`
-	} finally {
-		running = false
-	}
-}
-
-console.log('Watching exercises directory for changes...')
+console.log('Watching exercises and extra directories for changes...')
 console.log('running fix to start...')
-run()
+queueFixRun()

@@ -21,14 +21,12 @@ if (!process.env.SKIP_PLAYGROUND) {
 			console.log('🗑  deleting existing playground app')
 			await fsExtra.remove(playgroundPath)
 		}
-		await setPlayground(firstProblemApp.fullPath).then(
-			() => {
-				console.log('✅ first problem app set up')
-			},
-			(error) => {
-				console.error(error)
-				throw new Error('❌  first problem app setup failed')
-			},
-		)
+		try {
+			await setPlayground(firstProblemApp.fullPath)
+			console.log('✅ first problem app set up')
+		} catch (error) {
+			console.error(error)
+			throw new Error('❌  first problem app setup failed')
+		}
 	}
 }

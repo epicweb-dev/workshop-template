@@ -11,7 +11,7 @@ Before final validation, ensure all fixes have been applied:
 
 ```bash
 # Auto-fix configs
-node ./epicshop/fix.js
+node ./epicshop/fix.ts
 
 # Format all files
 npm run format
@@ -168,7 +168,7 @@ Ready for review!
 | Issue | Solution |
 |-------|----------|
 | Formatting in diffs | Run `npm run format` on all files |
-| Config files in diffs | Run `node ./epicshop/fix.js` |
+| Config files in diffs | Run `node ./epicshop/fix.ts` |
 | Exercise too long | Split into multiple exercises or reduce steps |
 | Diff too large | Break step into smaller steps |
 | Instructions unclear | Add more guidance, hints, and examples |
