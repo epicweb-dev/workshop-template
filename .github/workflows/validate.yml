@@ -35,7 +35,7 @@ jobs:
         run: npm run typecheck
         working-directory: ./workshop
 
-      - name: ⬣ ESLint
+      - name: ⬣ Oxlint
         run: npm run lint
         working-directory: ./workshop
 
@@ -60,7 +60,7 @@ jobs:
 
       - name: 🧪 Run tests
         id: run_tests
-        run: node ./epicshop/test.js ..s
+        run: node ./epicshop/test.ts ..s
 
   deploy:
     name: 🚀 Deploy

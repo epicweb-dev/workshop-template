@@ -1,15 +1,12 @@
 // This should run by node without any dependencies
 // because you may need to run it without deps.
 
-import cp from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const here = (...p) => path.join(__dirname, ...p)
-const VERBOSE = false
-const logVerbose = (...args) => (VERBOSE ? console.log(...args) : undefined)
+const here = (...p: Array<string>) => path.join(__dirname, ...p)
 
 const workshopRoot = here('..')
 const examples = (await readDir(here('../examples'))).map(dir =>
@@ -44,7 +41,7 @@ const appsWithPkgJson = [...examples, ...apps].filter(app => {
 // e.g. exercises/01-goo/problem.01-great
 // name: "exercises__sep__01-goo.problem__sep__01-great"
 
-function relativeToWorkshopRoot(dir) {
+function relativeToWorkshopRoot(dir: string) {
 	return dir.replace(`${workshopRoot}${path.sep}`, '')
 }
 
@@ -90,7 +87,7 @@ async function updateTsconfig() {
 	}
 }
 
-async function writeIfNeeded(filepath, content) {
+async function writeIfNeeded(filepath: string, content: string, _opts?: { parser: string }) {
 	const oldContent = await fs.promises.readFile(filepath, 'utf8')
 	if (oldContent !== content) {
 		await fs.promises.writeFile(filepath, content)
@@ -98,17 +95,17 @@ async function writeIfNeeded(filepath, content) {
 	return oldContent !== content
 }
 
-function exists(p) {
+function exists(p: string) {
 	if (!p) return false
 	try {
 		fs.statSync(p)
 		return true
-	} catch (error) {
+	} catch {
 		return false
 	}
 }
 
-async function readDir(dir) {
+async function readDir(dir: string) {
 	if (exists(dir)) {
 		return fs.promises.readdir(dir)
 	}

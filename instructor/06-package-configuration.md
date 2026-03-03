@@ -22,7 +22,7 @@ The root `package.json` configures the entire workshop.
   "scripts": {
     "start": "npx --prefix ./epicshop epicshop start",
     "dev": "npx --prefix ./epicshop epicshop start",
-    "setup": "node ./epicshop/setup.js"
+    "setup": "pkgmgrx epicshop setup"
   }
 }
 ```
@@ -74,9 +74,9 @@ The root `package.json` configures the entire workshop.
     "postinstall": "cd ./epicshop && npm install",
     "start": "npx --prefix ./epicshop epicshop start",
     "dev": "npx --prefix ./epicshop epicshop start",
-    "setup": "node ./epicshop/setup.js",
-    "setup:custom": "node ./epicshop/setup-custom.js",
-    "lint": "eslint .",
+    "setup": "pkgmgrx epicshop setup",
+    "setup:custom": "node ./epicshop/setup-custom.ts",
+    "lint": "oxlint --config .oxlintrc.json .",
     "format": "prettier --write .",
     "typecheck": "tsc -b"
   },
@@ -86,13 +86,13 @@ The root `package.json` configures the entire workshop.
   ],
   "devDependencies": {
     "@epic-web/config": "^1.21.3",
-    "eslint": "^9.39.0",
+    "oxlint": "^1.51.0",
     "prettier": "^3.7.0",
     "typescript": "^5.9.0"
   },
   "prettier": "@epic-web/config/prettier",
   "engines": {
-    "node": ">=20",
+    "node": ">=24",
     "npm": ">=8.16.0"
   }
 }
@@ -313,8 +313,8 @@ Individual exercises can override global settings in their `package.json`:
     "postinstall": "cd ./epicshop && npm install",
     "start": "npx --prefix ./epicshop epicshop start",
     "dev": "npx --prefix ./epicshop epicshop start",
-    "setup": "node ./epicshop/setup.js",
-    "setup:custom": "node ./epicshop/setup-custom.js"
+    "setup": "pkgmgrx epicshop setup",
+    "setup:custom": "node ./epicshop/setup-custom.ts"
   }
 }
 ```
@@ -324,7 +324,7 @@ Individual exercises can override global settings in their `package.json`:
 ```json
 {
   "scripts": {
-    "lint": "eslint .",
+    "lint": "oxlint --config .oxlintrc.json .",
     "format": "prettier --write .",
     "typecheck": "tsc -b",
     "test": "npm run test --silent --prefix playground",
@@ -358,7 +358,7 @@ Specify required versions:
 ```json
 {
   "engines": {
-    "node": ">=20",
+    "node": ">=24",
     "npm": ">=8.16.0",
     "git": ">=2.18.0"
   }
@@ -376,7 +376,7 @@ Common root-level dev dependencies:
   "devDependencies": {
     "@epic-web/config": "^1.21.3",
     "@epic-web/workshop-utils": "^6.49.3",
-    "eslint": "^9.39.0",
+    "oxlint": "^1.51.0",
     "prettier": "^3.7.0",
     "typescript": "^5.9.0"
   }

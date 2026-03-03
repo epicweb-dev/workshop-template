@@ -4,15 +4,15 @@ import chokidar from 'chokidar'
 import { $ } from 'execa'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const here = (...p) => path.join(__dirname, ...p)
+const here = (...p: Array<string>) => path.join(__dirname, ...p)
 
 const workshopRoot = here('..')
 
 // Watch the exercises directory
 const watcher = chokidar.watch(path.join(workshopRoot, 'exercises'), {
 	ignored: [
-		/(^|[\/\\])\../, // ignore dotfiles
-		(path) => {
+		/(^|[/\\])\./, // ignore dotfiles
+		(path: string) => {
 			// Only watch directories up to depth 2
 			const relativePath = path.slice(workshopRoot.length + 1)
 			return relativePath.split('/').length > 4
@@ -26,20 +26,20 @@ const debouncedRun = debounce(run, 200)
 
 // Add event listeners.
 watcher
-	.on('addDir', (path) => {
+	.on('addDir', (_path: string) => {
 		debouncedRun()
 	})
-	.on('unlinkDir', (path) => {
+	.on('unlinkDir', (_path: string) => {
 		debouncedRun()
 	})
-	.on('error', (error) => console.log(`Watcher error: ${error}`))
+	.on('error', (error: unknown) => console.log(`Watcher error: ${error}`))
 
 /**
  * Simple debounce implementation
  */
-function debounce(fn, delay) {
-	let timer = null
-	return (...args) => {
+function debounce(fn: (...args: Array<unknown>) => unknown, delay: number) {
+	let timer: ReturnType<typeof setTimeout> | null = null
+	return (...args: Array<unknown>) => {
 		if (timer) clearTimeout(timer)
 		timer = setTimeout(() => {
 			fn(...args)
@@ -59,9 +59,7 @@ async function run() {
 		await $({
 			stdio: 'inherit',
 			cwd: workshopRoot,
-		})`node ./epicshop/fix.js`
-	} catch (error) {
-		throw error
+		})`node ./epicshop/fix.ts`
 	} finally {
 		running = false
 	}

@@ -1,6 +1,6 @@
-import { createServer } from 'http'
+import { createServer } from 'node:http'
 
-const server = createServer((req, res) => {
+const server = createServer((_req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/plain' })
 	res.end('goodbye world')
 })

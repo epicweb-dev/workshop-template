@@ -14,10 +14,12 @@ const { prompt } = enquirer
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+type OutputEntry = { chunk: string; streamType: 'stdout' | 'stderr' }
+
 function captureOutput() {
-	const output = []
+	const output: Array<OutputEntry> = []
 	return {
-		write: (chunk, streamType) => {
+		write: (chunk: Buffer | string, streamType: 'stdout' | 'stderr') => {
 			output.push({ chunk: chunk.toString(), streamType })
 		},
 		replay: () => {
@@ -33,7 +35,9 @@ function captureOutput() {
 	}
 }
 
-function printTestSummary(results) {
+type TestResult = { result: 'Passed' | 'Failed' | 'Error' | 'Incomplete'; duration: number }
+
+function printTestSummary(results: Map<string, TestResult>) {
 	const label = '--- Test Summary ---'
 	console.log(`\n${label}`)
 	for (const [appPath, { result, duration }] of results) {
@@ -71,7 +75,7 @@ async function main() {
 	}
 
 	let selectedApps
-	let additionalArgs = []
+	let additionalArgs: Array<string> = []
 
 	// Parse command-line arguments
 	const argIndex = process.argv.indexOf('--')
@@ -110,20 +114,20 @@ async function main() {
 		)
 		const choices = displayNameMap.keys()
 
-		const response = await prompt({
+		const response = await (prompt as Function)({
 			type: 'autocomplete',
 			name: 'appDisplayNames',
 			message: 'Select apps to test:',
 			choices: ['All', ...choices],
 			multiple: true,
-			suggest: (input, choices) => {
+			suggest: (input: string, choices: Array<{ name: string }>) => {
 				return matchSorter(choices, input, { keys: ['name'] })
 			},
 		})
 
 		selectedApps = response.appDisplayNames.includes('All')
 			? allAppsWithTests
-			: response.appDisplayNames.map((appDisplayName) =>
+			: response.appDisplayNames.map((appDisplayName: string) =>
 					displayNameMap.get(appDisplayName),
 				)
 
@@ -132,7 +136,7 @@ async function main() {
 			selectedApps.length === allAppsWithTests.length
 				? '*'
 				: selectedApps
-						.map((app) => `${app.exerciseNumber}.${app.stepNumber}.${app.type}`)
+						.map((app: any) => `${app.exerciseNumber}.${app.stepNumber}.${app.type}`)
 						.join(',')
 		const additionalArgsString =
 			additionalArgs.length > 0 ? ` -- ${additionalArgs.join(' ')}` : ''
@@ -174,7 +178,7 @@ async function main() {
 		let hasFailures = false
 		const runningProcesses = new Map()
 		let isShuttingDown = false
-		const results = new Map()
+		const results = new Map<string, TestResult>()
 
 		const shutdownHandler = () => {
 			if (isShuttingDown) return
@@ -191,7 +195,7 @@ async function main() {
 				}
 				// Set result for incomplete tests
 				if (!results.has(app.relativePath)) {
-					results.set(app.relativePath, 'Incomplete')
+					results.set(app.relativePath, { result: 'Incomplete', duration: 0 })
 				}
 			}
 			printTestSummary(results)
@@ -202,7 +206,7 @@ async function main() {
 		process.on('SIGINT', shutdownHandler)
 		process.on('SIGTERM', shutdownHandler)
 
-		const tasks = selectedApps.map((app) =>
+		const tasks = selectedApps.map((app: any) =>
 			limit(async () => {
 				if (isShuttingDown) return
 				console.log(`🚀 Starting tests for ${app.relativePath}`)
@@ -223,8 +227,8 @@ async function main() {
 						},
 					)
 
-					subprocess.stdout.on('data', (chunk) => output.write(chunk, 'stdout'))
-					subprocess.stderr.on('data', (chunk) => output.write(chunk, 'stderr'))
+					subprocess.stdout!.on('data', (chunk: Buffer) => output.write(chunk, 'stdout'))
+					subprocess.stderr!.on('data', (chunk: Buffer) => output.write(chunk, 'stderr'))
 
 					const { exitCode } = await subprocess
 					const duration = (performance.now() - startTime) / 1000
@@ -241,7 +245,7 @@ async function main() {
 						results.set(app.relativePath, { result: 'Failed', duration })
 						// Set result for incomplete tests
 						if (!results.has(app.relativePath)) {
-							results.set(app.relativePath, 'Incomplete')
+							results.set(app.relativePath, { result: 'Incomplete', duration: 0 })
 						}
 					} else {
 						console.log(
@@ -249,7 +253,7 @@ async function main() {
 						)
 						results.set(app.relativePath, { result: 'Passed', duration })
 					}
-				} catch (error) {
+				} catch (error: any) {
 					const duration = (performance.now() - startTime) / 1000
 					runningProcesses.delete(app)
 					hasFailures = true
